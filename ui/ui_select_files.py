@@ -2,8 +2,9 @@ import tkinter as tk
 import os
 from tkinter import filedialog
 from core.file_selection import collect_files, files_preview
+from ui.ui_renaming_files import open_renaming_interface
 
-# Global list for storing selected raw paths
+# Global list to store selected files
 selected_paths = []
 
 def select_files():
@@ -35,14 +36,14 @@ def validate_selection():
         filename = os.path.basename(file_path)
         file_listbox.insert(tk.END, filename)
 
-def launch_ui():
+def open_file_selection_interface():
     global file_listbox
 
     root = tk.Tk()
     root.title("File Renamer - Selection")
-    root.geometry("1000x700")
+    root.geometry("1400x800")
 
-    label = tk.Label(root, text="Adds files and/or folders to be renamed :", font=("Arial", 12))
+    label = tk.Label(root, text="Adds files and/or folders to be renamed :", font=("Arial", 18))
     label.pack(pady=10)
 
     btn_files = tk.Button(root, text="Add files", command=select_files, width=30)
@@ -68,6 +69,10 @@ def launch_ui():
     # Listbox with fixed width and height
     file_listbox = tk.Listbox(listbox_frame, height=20, width=80, yscrollcommand=scrollbar.set, font=("Courier New", 10))
     file_listbox.pack(side=tk.LEFT, fill=tk.BOTH)
+
+    # Next Button
+    next_button = tk.Button(root, text="Next", width=15, bg="#2196F3", fg="white", command=lambda: open_renaming_interface(root, selected_paths))
+    next_button.place(relx=0.95, rely=0.95, anchor="se")
 
     scrollbar.config(command=file_listbox.yview)
     
