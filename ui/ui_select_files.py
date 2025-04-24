@@ -10,31 +10,28 @@ selected_paths = []
 def select_files():
     # Select files and add into selected_paths
     files = filedialog.askopenfilenames(title="Select files")
-    selected_paths.extend(files)
+    if files:
+        selected_paths.extend(files)
+        collected_files = collect_files(selected_paths)
+        files_preview(collected_files)
+
+        file_listbox.delete(0, tk.END)
+        for file_path in collected_files:
+            filename = os.path.basename(file_path)
+            file_listbox.insert(tk.END, filename)
 
 def select_folder():
     # Select folder and add files from folder into selected_paths
     folder = filedialog.askdirectory(title="Select folder")
     if folder:
         selected_paths.append(folder)
+        collected_files = collect_files(selected_paths)
+        files_preview(collected_files)
 
-def validate_selection():
-    # Validate the selection
-    if not selected_paths:
-        print("No path selected.")
-        return
-    
-    # File collection and processing
-    collected_files = collect_files(selected_paths)
-    
-    # Displays in console for debugging
-    files_preview(collected_files)
-    
-    # Clear and update listbox
-    file_listbox.delete(0, tk.END)
-    for file_path in collected_files:
-        filename = os.path.basename(file_path)
-        file_listbox.insert(tk.END, filename)
+        file_listbox.delete(0, tk.END)
+        for file_path in collected_files:
+            filename = os.path.basename(file_path)
+            file_listbox.insert(tk.END, filename)
 
 def open_file_selection_interface():
     global file_listbox
@@ -52,8 +49,15 @@ def open_file_selection_interface():
     btn_folder = tk.Button(root, text="Add folder", command=select_folder, width=30)
     btn_folder.pack(pady=5)
 
-    btn_validate = tk.Button(root, text="Validate selection", command=validate_selection, width=30, bg="#4CAF50", fg="white")
-    btn_validate.pack(pady=10)
+    def on_next_click():
+        if not selected_paths:
+            warning_label.config(text="Please select at least one file or folder.", fg="red")
+        else:
+            open_renaming_interface(root, selected_paths)
+
+    # Warning label for displaying messages if no files
+    warning_label = tk.Label(root, text="", font=("Arial", 10), fg="red")
+    warning_label.pack(pady=(5, 0))
 
     preview_label = tk.Label(root, text="Preview selected files :", font=("Arial", 10, "bold"))
     preview_label.pack(pady=(10, 0))
@@ -71,7 +75,7 @@ def open_file_selection_interface():
     file_listbox.pack(side=tk.LEFT, fill=tk.BOTH)
 
     # Next Button
-    next_button = tk.Button(root, text="Next", width=15, bg="#2196F3", fg="white", command=lambda: open_renaming_interface(root, selected_paths))
+    next_button = tk.Button(root, text="Next", width=15, bg="#2196F3", fg="white", command=on_next_click)
     next_button.place(relx=0.95, rely=0.95, anchor="se")
 
     scrollbar.config(command=file_listbox.yview)
