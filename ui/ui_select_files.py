@@ -38,7 +38,7 @@ def open_file_selection_interface():
 
     root = tk.Tk()
     root.title("File Renamer - Selection")
-    root.geometry("1400x800")
+    root.geometry("1400x900")
 
     label = tk.Label(root, text="Adds files and/or folders to be renamed :", font=("Arial", 18))
     label.pack(pady=10)

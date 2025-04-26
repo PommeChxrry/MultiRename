@@ -30,9 +30,16 @@ def open_renaming_interface(root, selected_paths):
     renaming_options.current(0)
     renaming_options.pack(pady=5)
 
+    # Warning label for displaying messages if no files
+    warning_label = tk.Label(root, text="", font=("Arial", 10), fg="red")
+    warning_label.pack(pady=(5, 0))
+
+    # Container to put custom_input
+    custom_input_container = tk.Frame(root)
+    custom_input_container.pack(pady=5)
+
     # Frame for custom input (hidden by default)
     custom_input_frame = tk.Frame(root)
-    # TODO : Essayer de placer entre Combobox et bouton select les label et entry de Custom name with index
 
     vcmd_filename = root.register(validate_filename_input)
     base_name_label = ttk.Label(custom_input_frame, text="Base name:")
@@ -51,7 +58,7 @@ def open_renaming_interface(root, selected_paths):
     # Function to show/hide custom input
     def update_inputs(*args):
         if selected_option.get() == "Custom name with index":
-            custom_input_frame.pack(pady=5)
+            custom_input_frame.pack(in_=custom_input_container)
         else:
             custom_input_frame.pack_forget()
 
@@ -60,11 +67,15 @@ def open_renaming_interface(root, selected_paths):
     # Call once to ensure correct initial state
     update_inputs()
 
-    # Insert the custom input frame here so it's between combobox and select
-    custom_input_frame.pack_forget()  # keep it hidden initially
+    # Bouton Select
+    def on_select():
+        if selected_option.get() == "Custom name with index" and base_name_entry.get().strip() == "":
+            warning_label.config(text="Please type at least one character in base name", fg="red")
+        else:
+            warning_label.config(text="")
+        print("Selected:", selected_option.get())
 
-    # Select button
-    select_button = ttk.Button(root, text="Select", command=lambda: print("Selected:", selected_option.get()))
+    select_button = ttk.Button(root, text="Select", command=on_select)
     select_button.pack(pady=20)
 
     # Preview files
