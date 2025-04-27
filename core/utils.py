@@ -1,14 +1,15 @@
-def get_file_metadata(file_path):
-    pass
-
-def sort_files_by_dates(file_list, date_type="creation"):
-    pass
+import random
+import string
 
 def generate_random_name(length=10):
-    pass
+    # Generates a random file name with letters and numbers
+    allowed_chars = string.ascii_letters + string.digits
+    random_name = ''.join(random.choice(allowed_chars) for _ in range(length))
+    return random_name
 
 def generate_custom_name(base_name, index=1):
-    pass
+    # Generates a custom name with a base name and an index
+    return f"{base_name}{index}"
 
 def check_name_conflicts(new_names, target_folder):
     pass

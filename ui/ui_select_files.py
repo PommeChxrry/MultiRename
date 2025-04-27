@@ -14,7 +14,7 @@ def select_files():
     files = filedialog.askopenfilenames(title="Select files")
     if files:
         mixed_paths = [file for file in files]
-        files_info = collect_files(mixed_paths)
+        files_info.extend(collect_files(mixed_paths))
         files_preview(files_info)
         update_listbox()
 
@@ -25,15 +25,16 @@ def select_folder():
     folder = filedialog.askdirectory(title="Select folder")
     if folder:
         mixed_paths = [folder]
-        files_info = collect_files(mixed_paths)
+        files_info.extend(collect_files(mixed_paths))
         files_preview(files_info)
         update_listbox()
 
 def update_listbox():
-    # Update the preview
-    file_listbox.delete(0, tk.END)
+     # Update the preview without duplicates
+    current_displayed_files = [file_listbox.get(i) for i in range(file_listbox.size())]
     for file in files_info:
-        file_listbox.insert(tk.END, file['original_name'])
+        if file['original_name'] not in current_displayed_files:
+            file_listbox.insert(tk.END, file['original_name'])
 
 def open_file_selection_interface():
     global file_listbox

@@ -8,7 +8,7 @@ def validate_numeric_input(text):
 def validate_filename_input(text):
     return re.match(r'^[\w\- ]*$', text) is not None
 
-def open_renaming_interface(root, selected_paths):
+def open_renaming_interface(root, files_info):
     for widget in root.winfo_children():
         widget.destroy()
 
