@@ -5,33 +5,35 @@ from core.file_selection import collect_files, files_preview
 from ui.ui_renaming_files import open_renaming_interface
 
 # Global list to store selected files
-selected_paths = []
+files_info = []
 
 def select_files():
-    # Select files and add into selected_paths
+    global files_info
+
+    # Select files and add into mixed_paths
     files = filedialog.askopenfilenames(title="Select files")
     if files:
-        selected_paths.extend(files)
-        collected_files = collect_files(selected_paths)
-        files_preview(collected_files)
-
-        file_listbox.delete(0, tk.END)
-        for file_path in collected_files:
-            filename = os.path.basename(file_path)
-            file_listbox.insert(tk.END, filename)
+        mixed_paths = [file for file in files]
+        files_info = collect_files(mixed_paths)
+        files_preview(files_info)
+        update_listbox()
 
 def select_folder():
+    global files_info
+
     # Select folder and add files from folder into selected_paths
     folder = filedialog.askdirectory(title="Select folder")
     if folder:
-        selected_paths.append(folder)
-        collected_files = collect_files(selected_paths)
-        files_preview(collected_files)
+        mixed_paths = [folder]
+        files_info = collect_files(mixed_paths)
+        files_preview(files_info)
+        update_listbox()
 
-        file_listbox.delete(0, tk.END)
-        for file_path in collected_files:
-            filename = os.path.basename(file_path)
-            file_listbox.insert(tk.END, filename)
+def update_listbox():
+    # Update the preview
+    file_listbox.delete(0, tk.END)
+    for file in files_info:
+        file_listbox.insert(tk.END, file['original_name'])
 
 def open_file_selection_interface():
     global file_listbox
@@ -50,10 +52,10 @@ def open_file_selection_interface():
     btn_folder.pack(pady=5)
 
     def on_next_click():
-        if not selected_paths:
+        if not files_info:
             warning_label.config(text="Please select at least one file or folder.", fg="red")
         else:
-            open_renaming_interface(root, selected_paths)
+            open_renaming_interface(root, files_info)
 
     # Warning label for displaying messages if no files
     warning_label = tk.Label(root, text="", font=("Arial", 10), fg="red")
