@@ -9,7 +9,7 @@ def generate_random_name(length=10):
 
 def generate_custom_name(base_name, index=1):
     # Generates a custom name with a base name and an index
-    return f"{base_name}{index}"
+    return f"{base_name}_{index}"
 
 def check_name_conflicts(new_names, target_folder):
     pass

@@ -1,12 +1,20 @@
 import tkinter as tk
 from tkinter import ttk
 import re
+from core.utils import generate_custom_name, generate_random_name
 
 def validate_numeric_input(text):
     return text.isdigit() or text == ""
 
 def validate_filename_input(text):
     return re.match(r'^[\w\- ]*$', text) is not None
+
+def update_rename_files_preview(file_list, original_listbox, new_listbox):
+    original_listbox.delete(0, tk.END)
+    new_listbox.delete(0, tk.END)
+    for file in file_list:
+        original_listbox.insert(tk.END, file['original_name'])
+        new_listbox.insert(tk.END, file['new_name'])
 
 def open_renaming_interface(root, files_info):
     for widget in root.winfo_children():
@@ -71,9 +79,23 @@ def open_renaming_interface(root, files_info):
     def on_select():
         if selected_option.get() == "Custom name with index" and base_name_entry.get().strip() == "":
             warning_label.config(text="Please type at least one character in base name", fg="red")
-        else:
-            warning_label.config(text="")
+            return
+        warning_label.config(text="")
+
+        if selected_option.get() == "Random names":
+            for file in files_info:
+                random_name = generate_random_name()
+                file['new_name'] = random_name + file['extension']
+        
+        elif selected_option.get() == "Custom name with index":
+            base_name = base_name_entry.get().strip()
+            start_index = int(index_entry.get().strip() or 1)
+            for idx, file in enumerate(files_info, start=start_index):
+                custom_name = generate_custom_name(base_name, idx)
+                file['new_name'] = custom_name + file['extension']
+        
         print("Selected:", selected_option.get())
+        update_rename_files_preview(files_info, original_listbox, new_listbox)
 
     select_button = ttk.Button(root, text="Select", command=on_select)
     select_button.pack(pady=20)
@@ -82,16 +104,39 @@ def open_renaming_interface(root, files_info):
     preview_label = tk.Label(root, text="Preview selected files :", font=("Arial", 10, "bold"))
     preview_label.pack(pady=(10, 0))
 
-    listbox_frame = tk.Frame(root)
-    listbox_frame.pack(pady=5)
+    columns_frame = tk.Frame(root)
+    columns_frame.pack(pady=5)
 
-    scrollbar = tk.Scrollbar(listbox_frame)
-    scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+    # Titles for columns
+    original_name_label = tk.Label(columns_frame, text="Original Name", font=("Arial", 10, "bold"))
+    original_name_label.grid(row=0, column=0, padx=20)
 
-    file_listbox = tk.Listbox(listbox_frame, height=20, width=80, yscrollcommand=scrollbar.set, font=("Courier New", 10))
-    file_listbox.pack(side=tk.LEFT, fill=tk.BOTH)
+    new_name_label = tk.Label(columns_frame, text="New Name", font=("Arial", 10, "bold"))
+    new_name_label.grid(row=0, column=1, padx=20)
 
-    scrollbar.config(command=file_listbox.yview)
+    # Frames for listboxes
+    listboxes_frame = tk.Frame(root)
+    listboxes_frame.pack(pady=5)
+
+    # Scrollbar shared between the two listboxes
+    shared_scrollbar = tk.Scrollbar(listboxes_frame)
+    shared_scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+
+    # Left listbox (original names)
+    original_listbox = tk.Listbox(listboxes_frame, height=20, width=40, font=("Courier New", 10), yscrollcommand=lambda *args: on_scroll(*args))
+    original_listbox.pack(side=tk.LEFT, fill=tk.BOTH, padx=5)
+
+    # Right listbox (new names)
+    new_listbox = tk.Listbox(listboxes_frame, height=20, width=40, font=("Courier New", 10), yscrollcommand=lambda *args: on_scroll(*args))
+    new_listbox.pack(side=tk.LEFT, fill=tk.BOTH, padx=5)
+
+    # Function to synchronize scrolling from original and new listbox
+    def on_scroll(*args):
+        original_listbox.yview(*args)
+        new_listbox.yview(*args)
+
+    # Connect the scrollbar to the scrolling function
+    shared_scrollbar.config(command=on_scroll)
 
     # Confirm Button
     confirm_button = tk.Button(root, text="Confirm", width=15, bg="#2196F3", fg="white")

@@ -1,6 +1,3 @@
-def rename_files_preview(file_list, mode="random"|"custom"):
-    pass
-
 def rename_files(rename_mapping):
     pass
 
