@@ -27,9 +27,6 @@ def collect_files(mixed_paths=[]):
             "created_time": os.path.getctime(file)
         })
 
-    # Sort by creation date
-    files_info.sort(key=lambda x: x["created_time"])
-
     return files_info
 
 def remove_unwanted_file(files_info, file_to_remove):

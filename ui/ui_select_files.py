@@ -56,6 +56,8 @@ def open_file_selection_interface():
         if not files_info:
             warning_label.config(text="Please select at least one file or folder.", fg="red")
         else:
+            # Sort by creation date
+            files_info.sort(key=lambda x: x["created_time"])
             open_renaming_interface(root, files_info)
 
     # Warning label for displaying messages if no files
