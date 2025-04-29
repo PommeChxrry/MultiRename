@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import ttk
+from tkinter import ttk, messagebox
 import re
 from core.utils import generate_custom_name, generate_random_name
 
@@ -132,14 +132,27 @@ def open_renaming_interface(root, files_info):
 
     # Function to synchronize scrolling from original and new listbox
     def on_scroll(*args):
-        original_listbox.yview(*args)
-        new_listbox.yview(*args)
+        if args[0] == "moveto":
+            original_listbox.yview_moveto(args[1])
+            new_listbox.yview_moveto(args[1])
+        elif args[0] == "scroll":
+            original_listbox.yview_scroll(int(args[1]), args[2])
+            new_listbox.yview_scroll(int(args[1]), args[2])
 
     # Connect the scrollbar to the scrolling function
+    original_listbox.config(yscrollcommand=shared_scrollbar.set)
+    new_listbox.config(yscrollcommand=shared_scrollbar.set)
     shared_scrollbar.config(command=on_scroll)
 
+    def confirm_renaming():
+        confirm = messagebox.askyesno("Confirm Renaming", "Are you sure you want to rename the files?")
+        if confirm:
+            print("Renaming confirmed")
+        else:
+            print("Renaming canceled")
+
     # Confirm Button
-    confirm_button = tk.Button(root, text="Confirm", width=15, bg="#2196F3", fg="white")
+    confirm_button = tk.Button(root, text="Confirm", width=15, bg="#2196F3", fg="white", command=confirm_renaming)
     confirm_button.place(relx=0.95, rely=0.95, anchor="se")
 
     # Back Button
