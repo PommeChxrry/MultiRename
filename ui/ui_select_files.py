@@ -4,44 +4,40 @@ from tkinter import filedialog
 from core.file_selection import collect_files, files_preview
 from ui.ui_renaming_files import open_renaming_interface
 
-# Global list to store selected files
-files_info = []
-
-def select_files():
-    global files_info
-
-    # Select files and add into mixed_paths
-    files = filedialog.askopenfilenames(title="Select files")
-    if files:
-        mixed_paths = [file for file in files]
-        files_info.extend(collect_files(mixed_paths))
-        files_preview(files_info)
-        update_listbox()
-
-def select_folder():
-    global files_info
-
-    # Select folder and add files from folder into selected_paths
-    folder = filedialog.askdirectory(title="Select folder")
-    if folder:
-        mixed_paths = [folder]
-        files_info.extend(collect_files(mixed_paths))
-        files_preview(files_info)
-        update_listbox()
-
-def update_listbox():
-     # Update the preview without duplicates
-    current_displayed_files = [file_listbox.get(i) for i in range(file_listbox.size())]
-    for file in files_info:
-        if file['original_name'] not in current_displayed_files:
-            file_listbox.insert(tk.END, file['original_name'])
-
-def open_file_selection_interface():
+def open_file_selection_interface(files_info=None):
     global file_listbox
+
+    if files_info is None:
+        files_info = []
 
     root = tk.Tk()
     root.title("File Renamer - Selection")
     root.geometry("1400x900")
+
+    def update_listbox():
+        # Update the preview without duplicates
+        current_displayed_files = [file_listbox.get(i) for i in range(file_listbox.size())]
+        for file in files_info:
+            if file['original_name'] not in current_displayed_files:
+                file_listbox.insert(tk.END, file['original_name'])
+
+    def select_files():
+        # Select files and add into mixed_paths
+        files = filedialog.askopenfilenames(title="Select files")
+        if files:
+            mixed_paths = [file for file in files]
+            files_info.extend(collect_files(mixed_paths))
+            files_preview(files_info)
+            update_listbox()
+
+    def select_folder():
+        # Select folder and add files from folder into selected_paths
+        folder = filedialog.askdirectory(title="Select folder")
+        if folder:
+            mixed_paths = [folder]
+            files_info.extend(collect_files(mixed_paths))
+            files_preview(files_info)
+            update_listbox()
 
     label = tk.Label(root, text="Adds files and/or folders to be renamed :", font=("Arial", 18))
     label.pack(pady=10)
@@ -56,8 +52,8 @@ def open_file_selection_interface():
         if not files_info:
             warning_label.config(text="Please select at least one file or folder.", fg="red")
         else:
-            # Sort by creation date
-            files_info.sort(key=lambda x: x["created_time"])
+            # Sort by modified time
+            files_info.sort(key=lambda x: x["modified_time"])
             open_renaming_interface(root, files_info)
 
     # Warning label for displaying messages if no files
@@ -84,5 +80,9 @@ def open_file_selection_interface():
     next_button.place(relx=0.95, rely=0.95, anchor="se")
 
     scrollbar.config(command=file_listbox.yview)
+
+    if files_info:
+        files_preview(files_info)
+        update_listbox()
     
     root.mainloop()

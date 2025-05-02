@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import ttk, messagebox
 import re
 from core.utils import generate_custom_name, generate_random_name
+from ui.ui_renaming_progress import open_renaming_progress_interface
 
 def validate_numeric_input(text):
     return text.isdigit() or text == ""
@@ -19,6 +20,8 @@ def update_rename_files_preview(file_list, original_listbox, new_listbox):
 def open_renaming_interface(root, files_info):
     for widget in root.winfo_children():
         widget.destroy()
+
+    root.title("File Renamer - Renaming Option")
 
     title = tk.Label(root, text="Rename Files", font=("Arial", 18))
     title.pack(pady=20)
@@ -75,7 +78,7 @@ def open_renaming_interface(root, files_info):
     # Call once to ensure correct initial state
     update_inputs()
 
-    # Bouton Select
+    # Select Button
     def on_select():
         if selected_option.get() == "Custom name with index" and base_name_entry.get().strip() == "":
             warning_label.config(text="Please type at least one character in base name", fg="red")
@@ -145,9 +148,14 @@ def open_renaming_interface(root, files_info):
     shared_scrollbar.config(command=on_scroll)
 
     def confirm_renaming():
+        if any(file.get("new_name", "") == "" for file in files_info):
+            messagebox.showwarning("No Rename Applied", "Please apply a renaming mode before confirming.")
+            return
+    
         confirm = messagebox.askyesno("Confirm Renaming", "Are you sure you want to rename the files?")
         if confirm:
             print("Renaming confirmed")
+            open_renaming_progress_interface(root, files_info)
         else:
             print("Renaming canceled")
 
@@ -156,5 +164,11 @@ def open_renaming_interface(root, files_info):
     confirm_button.place(relx=0.95, rely=0.95, anchor="se")
 
     # Back Button
-    back_button = tk.Button(root, text="Back", width=15, bg="#ff0000", fg="white")
+    def on_back_click():
+        root.destroy()
+
+        from ui.ui_select_files import open_file_selection_interface
+        open_file_selection_interface(files_info=files_info)
+
+    back_button = tk.Button(root, text="Back", width=15, bg="#ff0000", fg="white", command=on_back_click)
     back_button.place(relx=0.05, rely=0.95, anchor="sw")

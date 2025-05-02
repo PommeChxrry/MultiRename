@@ -24,7 +24,7 @@ def collect_files(mixed_paths=[]):
             "original_name": filename,
             "extension": ext,
             "new_name": "",
-            "created_time": os.path.getctime(file)
+            "modified_time": os.path.getmtime(file)
         })
 
     return files_info
