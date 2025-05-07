@@ -27,7 +27,7 @@ def open_renaming_interface(root, files_info):
     title.pack(pady=20)
 
     # Selection box for different renaming option
-    selection_label = ttk.Label(root, text="Please select a renaming option:", font=("Arial", 10, "bold"))
+    selection_label = ttk.Label(root, text="Please select a renaming option:", font=("Arial", 12, "bold"))
     selection_label.pack(pady=(10, 0))
 
     selection_frame = tk.Frame(root)
@@ -107,31 +107,28 @@ def open_renaming_interface(root, files_info):
     preview_label = tk.Label(root, text="Preview selected files :", font=("Arial", 10, "bold"))
     preview_label.pack(pady=(10, 0))
 
-    columns_frame = tk.Frame(root)
-    columns_frame.pack(pady=5)
-
-    # Titles for columns
-    original_name_label = tk.Label(columns_frame, text="Original Name", font=("Arial", 10, "bold"))
-    original_name_label.grid(row=0, column=0, padx=20)
-
-    new_name_label = tk.Label(columns_frame, text="New Name", font=("Arial", 10, "bold"))
-    new_name_label.grid(row=0, column=1, padx=20)
-
     # Frames for listboxes
     listboxes_frame = tk.Frame(root)
     listboxes_frame.pack(pady=5)
 
-    # Scrollbar shared between the two listboxes
-    shared_scrollbar = tk.Scrollbar(listboxes_frame)
-    shared_scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+    # Titles for columns
+    original_name_label = tk.Label(listboxes_frame, text="Original Name", font=("Arial", 10, "bold"), anchor="w", width=40)
+    original_name_label.grid(row=0, column=0, padx=5, sticky="w")
+
+    new_name_label = tk.Label(listboxes_frame, text="New Name", font=("Arial", 10, "bold"), anchor="e", width=40)
+    new_name_label.grid(row=0, column=1, padx=5, sticky="e")
 
     # Left listbox (original names)
     original_listbox = tk.Listbox(listboxes_frame, height=20, width=40, font=("Courier New", 10), yscrollcommand=lambda *args: on_scroll(*args))
-    original_listbox.pack(side=tk.LEFT, fill=tk.BOTH, padx=5)
+    original_listbox.grid(row=1, column=0, padx=5, sticky="nsew")
 
     # Right listbox (new names)
     new_listbox = tk.Listbox(listboxes_frame, height=20, width=40, font=("Courier New", 10), yscrollcommand=lambda *args: on_scroll(*args))
-    new_listbox.pack(side=tk.LEFT, fill=tk.BOTH, padx=5)
+    new_listbox.grid(row=1, column=1, padx=5, sticky="nsew")
+
+    # Scrollbar shared between the two listboxes
+    shared_scrollbar = tk.Scrollbar(listboxes_frame, orient=tk.VERTICAL, command=lambda *args: [original_listbox.yview(*args), new_listbox.yview(*args)])
+    shared_scrollbar.grid(row=1, column=2, sticky="ns")
 
     # Function to synchronize scrolling from original and new listbox
     def on_scroll(*args):

@@ -8,7 +8,6 @@ def rename_files(files_info, progress_callback=None, final_callback=None):
     for i, file in enumerate(files_info, start=1):
         old_path = file["original_path"]
         directory = os.path.dirname(old_path)
-        extension = file["extension"]
         base_new_name = file["new_name"]
 
         if not base_new_name:

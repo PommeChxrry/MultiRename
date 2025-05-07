@@ -1,7 +1,5 @@
 import random
 import string
-import os
-from collections import defaultdict
 
 def generate_random_name(length=10):
     # Generates a random file name with letters and numbers

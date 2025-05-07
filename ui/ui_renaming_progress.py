@@ -11,6 +11,7 @@ def open_renaming_progress_interface(root, files_info):
     root.geometry("400x200")
     root.resizable(False, False)
 
+    # Unable closing
     root.protocol("WM_DELETE_WINDOW", lambda: messagebox.showwarning("Renaming in progress", "Please wait until the process is finished."))
 
     label_title = tk.Label(root, text="Renaming in progress...", font=("Arial", 14))
@@ -24,13 +25,14 @@ def open_renaming_progress_interface(root, files_info):
     label_status.pack(pady=10)
 
     def update_progress(current, total):
+        # Shows update progress
         percent = (current / total) * 100
         progress_var.set(percent)
         label_status.config(text=f"{current} / {total}")
         root.update_idletasks()
 
     def finish_callback(success_count):
-        # Réactiver la fermeture
+        # Able closing
         root.protocol("WM_DELETE_WINDOW", root.destroy)
         messagebox.showinfo("Renaming Complete", f"{success_count} files renamed successfully.")
         root.destroy()

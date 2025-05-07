@@ -1,5 +1,4 @@
 import tkinter as tk
-import os
 from tkinter import filedialog
 from core.file_selection import collect_files, files_preview
 from ui.ui_renaming_files import open_renaming_interface
@@ -39,14 +38,20 @@ def open_file_selection_interface(files_info=None):
             files_preview(files_info)
             update_listbox()
 
-    label = tk.Label(root, text="Adds files and/or folders to be renamed :", font=("Arial", 18))
+    title = tk.Label(root, text="Select Files", font=("Arial", 18))
+    title.pack(pady=20)
+
+    label = tk.Label(root, text="Adds files and/or folders to be renamed :", font=("Arial", 12, "bold"))
     label.pack(pady=10)
 
-    btn_files = tk.Button(root, text="Add files", command=select_files, width=30)
-    btn_files.pack(pady=5)
+    select_files_folder_frame = tk.Frame(root)
+    select_files_folder_frame.pack(pady=5)
 
-    btn_folder = tk.Button(root, text="Add folder", command=select_folder, width=30)
-    btn_folder.pack(pady=5)
+    btn_files = tk.Button(select_files_folder_frame, text="Add files", command=select_files, width=30)
+    btn_files.pack(side=tk.LEFT, padx=10)
+
+    btn_folder = tk.Button(select_files_folder_frame, text="Add folder", command=select_folder, width=30)
+    btn_folder.pack(side=tk.RIGHT, padx=10)
 
     def on_next_click():
         if not files_info:
