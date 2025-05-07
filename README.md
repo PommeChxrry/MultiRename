@@ -13,6 +13,27 @@ This tool is designed to be easy to use, with a clean interface and customizable
 - Preserve original file properties (creation date, size, type)
 - Add a visual progress indicator during file renaming
 
+## Usage
+
+### To launch the application:
+
+From the project folder, run in the terminal :
+```bash
+python main.py
+```
+### Into the application
+
+- Select folders and/or files as it says then confirm
+- Choose a renaming mode (random or custom name with index).
+- Preview the changes.
+- Click Confirm to rename.
+
+### Important
+
+Files are renamed directly - make backups if needed.  
+Currently tested only on Windows.  
+Linux/macOS support not guaranteed yet.
+
 ## Future Features
 
 Planned improvements for upcoming versions:
@@ -25,4 +46,3 @@ Planned improvements for upcoming versions:
 This is a personal project, currently functional and tested on **Windows**.  
 It is still under development and may evolve in future versions.  
 **Use at your own risk** – always back up your files before renaming.  
-
