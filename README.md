@@ -17,7 +17,7 @@ This tool is designed to be easy to use, with a clean interface and customizable
 
 ### To launch the application:
 
-From the project folder, run in the terminal :
+From the project folder, run in the terminal (download python first):
 ```bash
 python main.py
 ```
@@ -40,6 +40,7 @@ Planned improvements for upcoming versions:
 
 - Allow users to remove unwanted files before starting the renaming process
 - Improve the preview display (with information about the file (localisation, creation date etc.))
+- Will make an .exe file for users to use the application without python installed
 
 ## Notes
 
