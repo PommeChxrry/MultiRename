@@ -22,7 +22,7 @@ Planned improvements for upcoming versions:
 
 ## Notes
 
-This is a personal project, currently functional and tested on **Windows**.
-It is still under development and may evolve in future versions.
-**Use at your own risk** – always back up your files before renaming.
+This is a personal project, currently functional and tested on **Windows**.  
+It is still under development and may evolve in future versions.  
+**Use at your own risk** – always back up your files before renaming.  
 
