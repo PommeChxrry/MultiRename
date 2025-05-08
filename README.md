@@ -17,7 +17,7 @@ This tool is designed to be easy to use, with a clean interface and customizable
 
 ### Download
 
-You can download hte Windows executable without installing python:
+You can download the Windows executable without installing python:  
 [Download MultiRename.exe](https://github.com/PommeChxrry/MultiRename/releases/tag/v1.0)
 
 _No installation needed. Just double-click the `.exe` file._
