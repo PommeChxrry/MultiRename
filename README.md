@@ -15,12 +15,13 @@ This tool is designed to be easy to use, with a clean interface and customizable
 
 ## Usage
 
-### To launch the application:
+### Download
 
-From the project folder, run in the terminal (download python first):
-```bash
-python main.py
-```
+You can download hte Windows executable without installing python:
+[Download MultiRename.exe](https://github.com/PommeChxrry/MultiRename/releases/tag/v1.0)
+
+_No installation needed. Just double-click the `.exe` file._
+
 ### Into the application
 
 - Select folders and/or files as it says then confirm
