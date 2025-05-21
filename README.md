@@ -1,20 +1,52 @@
-# rename-file-project
+# Rename File Project
 
-A simple Python application that allows users to rename multiple files (images, documents...) based on various criteria.  
+A simple Python application that allows users to rename multiple files (images, documents...) at once based on different criteria.  
 This tool is designed to be easy to use, with a clean interface and customizable renaming options.
 
 ## Features
 
-- Select a folder and/or individual files
-- The programm will display all files in creation date order
-- Remove unwanted files before processing
+- Select one or more folders and/or individual files
 - Choose between two renaming modes:
-  - Random names (letters/numbers)
+  - Random names (letters and numbers)
   - Custom names with sequential numbering
-- A preview before renaming (old name → new name)
-- Keep original file properties (creation date, size, type)
-- Visual feedback during the renaming process
+- Preview before renaming (old name → new name)
+- Preserve original file properties (creation date, size, type)
+- Add a visual progress indicator during file renaming
+
+## Usage
+
+### Download
+
+You can download the Windows executable without installing python:  
+[Download MultiRename.exe](https://github.com/PommeChxrry/MultiRename/releases/tag/v1.0)
+
+_No installation needed. Just double-click the `.exe` file._
+
+### Into the application
+
+- Select folders and/or files as it says then confirm
+- Choose a renaming mode (random or custom name with index).
+- Preview the changes.
+- Click Confirm to rename.
+
+### Important
+
+Files are renamed directly - make backups if needed.  
+Currently tested only on Windows.  
+Linux/macOS support not guaranteed yet.
+
+## Future Features
+
+Planned improvements for upcoming versions:
+
+- Allow users to remove unwanted files before starting the renaming process
+- Improve the preview display (with information about the file (localisation, creation date etc.))
+- Add version number (from GitHub tag) in the app interface  
+- Add a version check: notify users if a newer version is available on GitHub  
+- Add multilingual support
 
 ## Notes
 
-This is a personal project. It is a work in progress (unusable at the moment)
+This is a personal project, currently functional and tested on **Windows**.  
+It is still under development and may evolve in future versions.  
+**Use at your own risk** – always back up your files before renaming.  
