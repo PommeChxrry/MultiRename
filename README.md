@@ -41,7 +41,9 @@ Planned improvements for upcoming versions:
 
 - Allow users to remove unwanted files before starting the renaming process
 - Improve the preview display (with information about the file (localisation, creation date etc.))
-- Will make an .exe file for users to use the application without python installed
+- Add version number (from GitHub tag) in the app interface  
+- Add a version check: notify users if a newer version is available on GitHub  
+- Add multilingual support
 
 ## Notes
 
