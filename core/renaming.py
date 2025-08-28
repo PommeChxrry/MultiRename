@@ -9,6 +9,7 @@ def rename_files(files_info, progress_callback=None, final_callback=None):
         old_path = file["original_path"]
         directory = os.path.dirname(old_path)
         base_new_name = file["new_name"]
+        name, ext = os.path.splitext(base_new_name)
 
         if not base_new_name:
             print(f"Skipping file with no new name: {old_path}")
@@ -19,7 +20,7 @@ def rename_files(files_info, progress_callback=None, final_callback=None):
         new_path = os.path.join(directory, new_name)
 
         while os.path.exists(new_path):
-            new_name = f"{base_new_name}({counter})"
+            new_name = f"{name}({counter}){ext}"
             new_path = os.path.join(directory, new_name)
             counter += 1
 
